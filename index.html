@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <title>Kiro Session Finder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="aurora">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img class="app-icon" src="assets/icon.png" alt="" />
+        <div class="brand-text">
+          <div class="title">Kiro Session Finder</div>
+          <div class="subtitle">Semantic search across your chat history</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div id="modelPill" class="pill" title="Local Hugging Face model">
+          <span class="dot"></span><span id="modelLabel">AI model</span>
+        </div>
+        <button id="openDir" class="ghost-btn" title="Open sessions folder">Sessions</button>
+        <button id="prefsBtn" class="ghost-btn icon-btn" title="Preferences">⚙</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="search-shell">
+        <div class="mode-toggle" id="modeToggle">
+          <button class="mode-btn active" data-mode="ai">
+            <span class="spark">✦</span> AI
+          </button>
+          <button class="mode-btn" data-mode="keyword">Keyword</button>
+          <span class="mode-slider" id="modeSlider"></span>
+        </div>
+        <input id="term" type="text" spellcheck="false"
+               placeholder="Describe what you were talking about..." autofocus />
+        <div id="scopeSelect" class="scope-mount"></div>
+        <button id="searchBtn" class="primary-btn">
+          <span class="btn-label">Search</span>
+        </button>
+      </div>
+      <div class="hint" id="hint">Try: "how long deployment takes" or "fix the login bug"</div>
+    </section>
+
+    <section id="progressWrap" class="progress-wrap hidden">
+      <div class="progress-status" id="progressStatus">Preparing...</div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </section>
+
+    <section id="status" class="status"></section>
+
+    <main id="results" class="results"></main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Init overlay: shown while the model loads / index builds -->
+  <div id="initOverlay" class="init-overlay">
+    <div class="init-card">
+      <div class="init-ring">
+        <svg viewBox="0 0 120 120" class="ring-svg">
+          <circle class="ring-track" cx="60" cy="60" r="52" />
+          <circle class="ring-progress" cx="60" cy="60" r="52" />
+        </svg>
+        <img class="init-icon" src="assets/icon.png" alt="" />
+      </div>
+      <div class="init-pct" id="initPct">Starting</div>
+      <div class="init-title" id="initTitle">Getting ready…</div>
+      <div class="init-sub" id="initSub">Preparing the AI engine</div>
+      <div class="init-steps" id="initSteps">
+        <div class="init-step" data-step="model"><span class="step-dot"></span> Load AI model</div>
+        <div class="init-step" data-step="index"><span class="step-dot"></span> Index your sessions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preferences modal -->
+  <div id="prefsOverlay" class="overlay hidden">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title">Preferences</div>
+        <button id="prefsClose" class="icon-btn ghost-btn" title="Close">✕</button>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-label">Kiro session directories</div>
+        <div class="section-hint">Folders scanned for <code>.json</code> / <code>.jsonl</code> session files.</div>
+        <div id="dirList" class="dir-list"></div>
+        <div class="dir-add-row">
+          <input id="dirInput" type="text" spellcheck="false" placeholder="/path/to/.kiro/sessions/cli" />
+          <button id="dirBrowse" class="ghost-btn">Browse…</button>
+          <button id="dirAdd" class="primary-btn small">Add</button>
+        </div>
+      </div>
+
+      <div class="modal-section grid2">
+        <div>
+          <div class="section-label">Default search mode</div>
+          <div id="prefModeSelect"></div>
+        </div>
+        <div>
+          <div class="section-label">Default scope</div>
+          <div id="prefScopeSelect"></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-label">Terminal command <span class="muted">(for “Open in terminal”)</span></div>
+        <input id="prefTerminal" type="text" spellcheck="false" placeholder="auto (detect gnome-terminal, konsole, …)" />
+      </div>
+
+      <div class="modal-section">
+        <div class="section-label">AI index</div>
+        <div class="section-hint" id="cacheInfo">Cached embeddings speed up repeat searches.</div>
+        <div class="cache-row">
+          <button id="clearCacheBtn" class="ghost-btn danger">Clear AI cache &amp; re-index</button>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <div class="foot-hint">Tip: press <kbd>Ctrl</kbd>+<kbd>,</kbd> to open preferences, <kbd>Esc</kbd> to close.</div>
+        <button id="prefsSave" class="primary-btn">Save preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="select.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Kiro Session Finder
+Comment=Search Kiro CLI chat sessions and copy resume commands
+Exec=__APP_DIR__/run.sh
+Path=__APP_DIR__
+Icon=__APP_DIR__/assets/icon.png
+Terminal=false
+Categories=Development;Utility;
