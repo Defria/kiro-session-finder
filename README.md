@@ -42,10 +42,17 @@ Everything runs **locally and offline**. No API keys, no tokens, no data leaves 
 
 ## Screenshots
 
-> Add your own screenshots here. Suggested shots:
-> - The main search view with AI results and similarity meters
-> - The startup init overlay with the progress ring
-> - The preferences panel
+**Semantic search results** — ranked by meaning, each with a similarity score, a ready-to-run resume command, and quick actions (copy, open in terminal, reveal file).
+
+![Semantic search results](assets/screenshots/search.png)
+
+**Startup** — an animated progress ring shows the model loading and session indexing, so the app never looks frozen.
+
+![Startup indexing overlay](assets/screenshots/startup.png)
+
+**Preferences** — configure session directories, default mode and scope, terminal command, and manage the AI cache.
+
+![Preferences panel](assets/screenshots/preferences.png)
 
 ## How it works
 
