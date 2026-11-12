@@ -42,6 +42,14 @@
       "node_modules/onnxruntime-node/**",
       "node_modules/sharp/**"
     ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.utilities",
+      "icon": "assets/icon.icns",
+      "artifactName": "KiroSessionFinder-${version}-${arch}.${ext}"
+    },
     "linux": {
       "target": [
         "AppImage"
